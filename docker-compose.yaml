@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    restart: always
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: "currencydb"
+      POSTGRES_USER: "x-techuser"
+      POSTGRES_PASSWORD: "x-techtest"
+    volumes:
+      - ./init_database/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - pg_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8088:8088"
+    environment:
+      PGDB: currencydb
+      PGUSER: x-techuser
+      PGPASSWORD: x-techtest
+      PGHOST: postgres
+      PGPORT: 5432
+    depends_on:
+      - postgres
+    command:
+      - ./wait-for-postgres.sh
+
+volumes:
+  pg_db:
+  init_database:

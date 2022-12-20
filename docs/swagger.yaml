@@ -1,0 +1,239 @@
+basePath: /
+definitions:
+  entity.BTCUSDBody:
+    properties:
+      date:
+        type: string
+      limit:
+        type: integer
+      page:
+        type: integer
+    type: object
+  entity.BTCUSDTResponse:
+    properties:
+      history:
+        items:
+          $ref: '#/definitions/entity.BTCUSDTResult'
+        type: array
+      total:
+        type: integer
+    type: object
+  entity.BTCUSDTResult:
+    properties:
+      timestamp:
+        type: string
+      value:
+        type: string
+    type: object
+  entity.CurrencyBody:
+    properties:
+      date:
+        type: string
+      limit:
+        type: integer
+      name:
+        items:
+          type: string
+        type: array
+      page:
+        type: integer
+    type: object
+  entity.CurrencyDec:
+    properties:
+      AMD:
+        type: number
+      AUD:
+        type: number
+      AZN:
+        type: number
+      BGN:
+        type: number
+      BRL:
+        type: number
+      BYN:
+        type: number
+      CAD:
+        type: number
+      CHF:
+        type: number
+      CNY:
+        type: number
+      CZK:
+        type: number
+      DKK:
+        type: number
+      Date:
+        type: string
+      EUR:
+        type: number
+      GBP:
+        type: number
+      HKD:
+        type: number
+      HUF:
+        type: number
+      INR:
+        type: number
+      JPY:
+        type: number
+      KGS:
+        type: number
+      KRW:
+        type: number
+      KZT:
+        type: number
+      MDL:
+        type: number
+      NOK:
+        type: number
+      PLN:
+        type: number
+      RON:
+        type: number
+      SEK:
+        type: number
+      SGD:
+        type: number
+      TJS:
+        type: number
+      TMT:
+        type: number
+      TRY:
+        type: number
+      UAH:
+        type: number
+      USD:
+        type: number
+      UZS:
+        type: number
+      XDR:
+        type: number
+      ZAR:
+        type: number
+    type: object
+  entity.CurrencyResponse:
+    properties:
+      history:
+        items:
+          $ref: '#/definitions/entity.CurrencyDec'
+        type: array
+      total:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: API Server for ITSM
+  title: ITSM API
+  version: "1.0"
+paths:
+  /v1/api/btcusdt:
+    get:
+      consumes:
+      - application/json
+      description: Получить последний актуальный курс BTS_USDT
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.BTCUSDTResponse'
+        "500":
+          description: Internal Server Error
+      summary: Последняя запись
+      tags:
+      - Валюты
+    post:
+      consumes:
+      - application/json
+      description: |-
+        Получить историю изменений поддерживает фильтрацию по и дате и времени
+        ввести дату и время в поле Date в формате yyy-mm-dd hh:mm:ss
+      parameters:
+      - description: info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/entity.BTCUSDBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.BTCUSDTResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: история Изменений
+      tags:
+      - Валюты
+  /v1/api/currencies:
+    get:
+      consumes:
+      - application/json
+      description: Получить актуальные крусы BTC к фиатным валютам
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.CurrencyDec'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: Последняя запись
+      tags:
+      - Валюты
+    post:
+      consumes:
+      - application/json
+      description: |-
+        Получить историю изменений поддерживает фильтрацию по валютам и дате
+        чтобы использовать нужно указать через запятую в двойных кавычках и заглавными буквами
+        названия валют в поле Name, а так же дату в поле Date в формате yyy-mm-dd
+      parameters:
+      - description: info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/entity.CurrencyBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.CurrencyResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: история Изменений
+      tags:
+      - Валюты
+  /v1/api/latest:
+    get:
+      consumes:
+      - application/json
+      description: Получить последние актиальные курсы валют
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.CurrencyDec'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: Последняя запись
+      tags:
+      - Валюты
+swagger: "2.0"
