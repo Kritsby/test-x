@@ -18,7 +18,7 @@ const docTemplate = `{
     "paths": {
         "/v1/api/btcusdt": {
             "get": {
-                "description": "Получить последний актуальный курс BTS_USDT",
+                "description": "Получить последний актуальный курс BTC_USDT",
                 "consumes": [
                     "application/json"
                 ],
@@ -42,7 +42,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Получить историю изменений поддерживает фильтрацию по и дате и времени\nввести дату и время в поле Date в формате yyy-mm-dd hh:mm:ss",
+                "description": "Получить историю изменений, поддерживает фильтрацию по и дате и времени.\nВвести дату и время в поле Date в формате yyy-mm-dd hh:mm:ss",
                 "consumes": [
                     "application/json"
                 ],
@@ -313,6 +313,9 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "RON": {
+                    "type": "number"
+                },
+                "RUB": {
                     "type": "number"
                 },
                 "SEK": {

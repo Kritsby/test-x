@@ -26,7 +26,7 @@ func TestHandler_btc_usd(t *testing.T) {
 		expectedResponseBody string
 	}{
 		{
-			name:   "OK Latest",
+			name:   "OK",
 			method: "GET",
 			mockBehavior: func(s *mock_service.MockBtcUsder) {
 				s.EXPECT().LastBtcUsd().Return(&entity.BTCUSDTResult{}, nil)
@@ -36,18 +36,18 @@ func TestHandler_btc_usd(t *testing.T) {
 `,
 		},
 		{
-			name:      "OK History",
+			name:      "OK",
 			method:    "POST",
-			inputBody: `{"Date": "", "Limit": 0, "Page": 0}`,
+			inputBody: `{"Date": "", "Limit": 1, "Page": 0}`,
 			mockBehavior: func(s *mock_service.MockBtcUsder) {
-				s.EXPECT().HistoryBtcUsd("", 0, 0).Return(&entity.BTCUSDTResponse{}, nil)
+				s.EXPECT().HistoryBtcUsd("", 1, 0).Return(&entity.BTCUSDTResponse{}, nil)
 			},
 			expectedStatusCode: 200,
 			expectedResponseBody: `{"data":{"total":0,"history":null},"params":null,"route":"/history"}
 `,
 		},
 		{
-			name:   "Service Error Latest",
+			name:   "Service Error",
 			method: "GET",
 			mockBehavior: func(s *mock_service.MockBtcUsder) {
 				s.EXPECT().LastBtcUsd().Return(&entity.BTCUSDTResult{}, errors.New("something went wrong"))
@@ -57,20 +57,11 @@ func TestHandler_btc_usd(t *testing.T) {
 `,
 		},
 		{
-			name:      "Service Error History",
+			name:      "No body",
 			method:    "POST",
-			inputBody: `{"Date": "", "Limit": 0, "Page": 0}`,
+			inputBody: ``,
 			mockBehavior: func(s *mock_service.MockBtcUsder) {
-				s.EXPECT().HistoryBtcUsd("", 0, 0).Return(&entity.BTCUSDTResponse{}, errors.New("something went wrong"))
 			},
-			expectedStatusCode: 400,
-			expectedResponseBody: `{"error":{},"params":null,"route":"/history"}
-`,
-		},
-		{
-			name:               "No body",
-			method:             "POST",
-			mockBehavior:       func(s *mock_service.MockBtcUsder) {},
 			expectedStatusCode: 501,
 			expectedResponseBody: `{"error":{},"params":null,"route":"/history"}
 `,

@@ -90,6 +90,8 @@ definitions:
         type: number
       RON:
         type: number
+      RUB:
+        type: number
       SEK:
         type: number
       SGD:
@@ -130,7 +132,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Получить последний актуальный курс BTS_USDT
+      description: Получить последний актуальный курс BTC_USDT
       produces:
       - application/json
       responses:
@@ -147,8 +149,8 @@ paths:
       consumes:
       - application/json
       description: |-
-        Получить историю изменений поддерживает фильтрацию по и дате и времени
-        ввести дату и время в поле Date в формате yyy-mm-dd hh:mm:ss
+        Получить историю изменений, поддерживает фильтрацию по и дате и времени.
+        Ввести дату и время в поле Date в формате yyy-mm-dd hh:mm:ss
       parameters:
       - description: info
         in: body

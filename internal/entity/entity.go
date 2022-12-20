@@ -3,7 +3,6 @@ package entity
 import (
 	"encoding/xml"
 	"github.com/shopspring/decimal"
-	"time"
 )
 
 type BTSUSDJSON struct {
@@ -17,7 +16,7 @@ type BTCUSDTResponse struct {
 }
 
 type BTCUSDTResult struct {
-	Timestamp time.Time       `json:"timestamp"`
+	Timestamp string          `json:"timestamp"`
 	Value     decimal.Decimal `json:"value" swaggertype:"string"`
 }
 
@@ -39,6 +38,7 @@ type CurrencyResponse struct {
 
 type CurrencyDec struct {
 	Date interface{}     `json:"Date,omitempty" swaggertype:"string"`
+	RUB  interface{}     `json:"RUB,omitempty"`
 	AUD  decimal.Decimal `json:"AUD,omitempty"`
 	AZN  decimal.Decimal `json:"AZN,omitempty"`
 	GBP  decimal.Decimal `json:"GBP,omitempty"`
@@ -73,11 +73,11 @@ type CurrencyDec struct {
 	ZAR  decimal.Decimal `json:"ZAR,omitempty"`
 	KRW  decimal.Decimal `json:"KRW,omitempty"`
 	JPY  decimal.Decimal `json:"JPY,omitempty"`
-	RUB  decimal.Decimal `json:",omitempty"`
 }
 
 type CurrencyInt struct {
 	Date string      `json:"Date"`
+	RUB  interface{} `json:"RUB,omitempty"`
 	AUD  interface{} `json:"AUD,omitempty"`
 	AZN  interface{} `json:"AZN,omitempty"`
 	GBP  interface{} `json:"GBP,omitempty"`

@@ -45,6 +45,14 @@ func (h *Handler) historyBTCUSDHandler(w http.ResponseWriter, req bunrouter.Requ
 		return h.responseJSON(w, req, http.StatusNotImplemented, err)
 	}
 
+	if b.Limit <= 0 {
+		return h.responseJSON(w, req, http.StatusNotImplemented, "give other limit")
+	}
+
+	if b.Page < 0 {
+		return h.responseJSON(w, req, http.StatusNotImplemented, "give other page")
+	}
+
 	result, err := h.services.HistoryBtcUsd(b.Date, b.Limit, b.Page)
 	if err != nil {
 		return h.responseJSON(w, req, http.StatusBadRequest, err)
@@ -52,5 +60,3 @@ func (h *Handler) historyBTCUSDHandler(w http.ResponseWriter, req bunrouter.Requ
 
 	return h.responseJSON(w, req, http.StatusOK, result)
 }
-
-//todo заменить структуру на фильтр как в структур парт

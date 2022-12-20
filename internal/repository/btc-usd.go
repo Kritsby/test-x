@@ -63,7 +63,7 @@ func (b *BtcUsdPostgres) InsertBtcUsd(usd decimal.Decimal, guid string) error {
 }
 
 func (b *BtcUsdPostgres) LastBtcUsd() (entity.BTCUSDTResult, error) {
-	query := `SELECT time_get, value FROM btc_usd ORDER BY time_get DESC LIMIT 1`
+	query := `SELECT CAST(time_get AS TEXT), value FROM btc_usd ORDER BY time_get DESC LIMIT 1`
 
 	var value entity.BTCUSDTResult
 	err := b.db.QueryRow(context.Background(), query).Scan(&value.Timestamp, &value.Value)
@@ -84,7 +84,7 @@ func (b *BtcUsdPostgres) HistoryBtcUsd(dateTime string, limit, page int) (entity
 
 	query := `
 	SELECT
-	    time_get, value
+	    CAST(time_get AS TEXT), value
 	FROM btc_usd
 	WHERE CAST(time_get AS TEXT) LIKE '%` + dateTime + `%'
 	ORDER BY time_get DESC

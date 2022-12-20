@@ -14,8 +14,6 @@ import (
 	"time"
 )
 
-const layout = "02:01:2006 15:04:05"
-
 type BtcUsdService struct {
 	repo repository.BtcUsder
 
@@ -112,9 +110,7 @@ func (s *BtcUsdService) LastBtcUsd() (*entity.BTCUSDTResult, error) {
 
 	result := new(entity.BTCUSDTResult)
 
-	date := fmt.Sprintf("%s", result.Timestamp)
-	dateTime, err := time.Parse(layout, date)
-	result.Timestamp = dateTime
+	result.Timestamp = last.Timestamp[:19]
 	result.Value = last.Value
 
 	return result, nil
@@ -130,13 +126,8 @@ func (s *BtcUsdService) HistoryBtcUsd(dateTime string, limit, page int) (*entity
 	var historySlice []entity.BTCUSDTResult
 
 	for _, h := range history.History {
-		date := fmt.Sprintf("%s", h.Timestamp)
-		dateTime, err := time.Parse(layout, date)
-		if err != nil {
-			return nil, err
-		}
 		historySlice = append(historySlice, entity.BTCUSDTResult{
-			Timestamp: dateTime,
+			Timestamp: h.Timestamp[:19],
 			Value:     h.Value,
 		})
 	}
